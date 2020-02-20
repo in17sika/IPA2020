@@ -1,0 +1,22 @@
+{
+  "name": "initialization",
+  "version": "1.0.0",
+  "description": "initialization file",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "init"
+  ],
+  "author": "kabilan sivanamam",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.8",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.20.10",
+    "mysql": "^2.18.1",
+    "nodemailer": "^6.4.2"
+  }
+}
