@@ -4,8 +4,8 @@
   "description": "db initialization",
   "main": "index.js",
   "scripts": {
-	"reset": "knex migrate:rollback && knex migrate:latest && knex seed:run"
- },
+    "reset": "knex migrate:rollback && knex migrate:latest && knex seed:run"
+  },
   "keywords": [
     "db",
     "init"
@@ -15,5 +15,6 @@
   "dependencies": {
     "knex": "^0.20.10",
     "mysql": "^2.18.1"
-  }
+  },
+  "devDependencies": {}
 }

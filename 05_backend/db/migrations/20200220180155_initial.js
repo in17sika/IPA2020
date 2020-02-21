@@ -10,9 +10,8 @@ exports.up = async function (knex) {
 		table.boolean('dates_relevant').notNullable().defaultTo(1)
 	})
 
-	// NOTE Ignore this
 	// ANCHOR Raw SQL Code because knex can't execute all of the settings like "increment"
-	await knex.raw("ALTER TABLE `schnupper`.`dates` CHANGE COLUMN `dates_id` `dates_id` INT(11) NOT NULL AUTO_INCREMENT;")
+	await knex.raw("ALTER TABLE `tasterDay`.`dates` CHANGE COLUMN `dates_id` `dates_id` INT(11) NOT NULL AUTO_INCREMENT;")
 
 	// ANCHOR Creates table 'applicants'
 	await knex.schema.createTable('applicants', table => {
@@ -29,8 +28,8 @@ exports.up = async function (knex) {
 		table.timestamps(false, true)
 	})
 
-	// NOTE Ignore this
-	await knex.raw("ALTER TABLE `schnupper`.`applicants` CHANGE COLUMN `applicants_id` `applicants_id` INT(11) NOT NULL AUTO_INCREMENT;")
+	// ANCHOR Raw SQL Code because knex can't execute all of the settings like "increment"
+	await knex.raw("ALTER TABLE `tasterDay`.`applicants` CHANGE COLUMN `applicants_id` `applicants_id` INT(11) NOT NULL AUTO_INCREMENT;")
 
 	// Creats table 'users'
 	await knex.schema.createTable('users', table => {
@@ -41,8 +40,8 @@ exports.up = async function (knex) {
 		table.string('users_lastname').notNullable()
 	})
 
-	// NOTE Ignore this
-	await knex.raw("ALTER TABLE `schnupper`.`users` CHANGE COLUMN `users_id` `users_id` INT(11) NOT NULL AUTO_INCREMENT;")
+	// ANCHOR Raw SQL Code because knex can't execute all of the settings like "increment"
+	await knex.raw("ALTER TABLE `tasterDay`.`users` CHANGE COLUMN `users_id` `users_id` INT(11) NOT NULL AUTO_INCREMENT;")
 };
 
 // ANCHOR this will be executed, if migrations are rolled back.
