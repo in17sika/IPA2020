@@ -1,29 +1,75 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Home from "../views/Home.vue";
+import About from "../views/About.vue";
+import Apply from "../views/Apply.vue";
+import Login from "../views/Login.vue";
+import Dashboard from "../views/Dashboard.vue";
+import Profil from "../views/Profil.vue";
 
-Vue.use(VueRouter)
+import store from "../store/index.js"
 
-const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
-]
+Vue.use(VueRouter);
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
+var router = new VueRouter({
+	mode: 'history',
+	base: process.env.BASE_URL,
+	routes: [{
+		path: "/",
+		name: "home",
+		component: Home
+	},
+	{
+		path: "/about",
+		name: "about",
+		component: About
+	},
+	{
+		path: "/apply",
+		name: "apply",
+		component: Apply
+	},
+	{
+		path: "/login",
+		name: "login",
+		component: Login
+	},
+	{
+		path: "/Dashboard",
+		name: "Dashboard",
+		component: Dashboard,
+		meta: {
+			requiresAuth: true
+		}
+	},
+	{
+		path: '/profil',
+		name: 'profil',
+		component: Profil,
+		meta: {
+			requiresAuth: true
+		}
+	}]
 })
 
-export default router
+router.beforeEach((to, from, next) => {
+	if (to.matched.some(record => record.meta.requiresAuth)) {
+		// this route requires auth, check if logged in
+		// if not, redirect to login page.
+		// console.log("your token is: " + store.getters.isLoggedIn)
+		if (!store.getters.isLoggedIn) {
+			next({
+				path: '/login',
+				query: {
+					redirect: to.fullPath
+				}
+			})
+		} else {
+			next()
+		}
+	} else {
+		next() // make sure to always call next()!
+	}
+})
+
+export default router;

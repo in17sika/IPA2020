@@ -90,6 +90,8 @@ router.post('/login', async (req, res) => {
 					username: users_username
 				}
 				var token = jwt.sign(tokendata, process.env.JWT_TOKEN)
+				console.log('signed');
+				
 				var auth = 'Bearer ' + token
 				
 				res.status(200).send(auth)
