@@ -51,7 +51,6 @@ router.post('/applicants', async (req, res) => {
 			color: 'info'
 		}
 		res.status(200).send(successMessage)
-		console.log()
 	} catch (err) {
 		var errorMsg = {
 			on: true,
@@ -62,6 +61,7 @@ router.post('/applicants', async (req, res) => {
 			color: 'error'
 		}
 		res.status(500).send(errorMsg)
+		console.log(err);
 	}
 })
 // !SECTION 

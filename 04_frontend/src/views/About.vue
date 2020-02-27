@@ -1,3 +1,4 @@
+<!-- ANCHOR CSS code. -->
 <style>
 .about {
   height: 100%;
@@ -5,6 +6,7 @@
 }
 </style>
 
+<!-- ANCHOR Template with the compontents. -->
 <template blue>
   <div class="about">
     <v-container class="my-0">

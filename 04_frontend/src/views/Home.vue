@@ -1,3 +1,4 @@
+<!-- ANCHOR CSS code. -->
 <style>
 	* {
 		font-family: "Montserrat";
@@ -13,10 +14,12 @@
 	}
 </style>
 
+<!-- ANCHOR Template with the compontents. -->
 <template>
 	<div class="home">
 		<v-container class="my-0">
 			<v-layout row wrap height="100vh">
+
 				<v-flex xs12 md6 height="100%">
 					<v-img class="mt-12" src="../assets/quitting.svg"></v-img>
 				</v-flex>
@@ -40,14 +43,20 @@
 						</div>
 					</v-card>
 				</v-flex>
+
 			</v-layout>
 		</v-container>
 	</div>
 </template>
 
+<!-- ANCHOR JS code. -->
 <script>
 export default {
+	
+	// ANCHOR Sets the compontents name.
 	name: "Home",
+	
+	// ANCHOR Sets data.
 	data() {
 		return {};
 	}

@@ -1,3 +1,4 @@
+<!-- ANCHOR Template with the compontents. -->
 <template>
 	<div class="login">
 		<v-app id="inspire">
@@ -33,9 +34,16 @@
 		</v-app>
 	</div>
 </template>
+
+<!-- ANCHOR JS code.-->
 <script>
+
+// ANCHOR Imports all the necessary dependencies.
 import axios from 'axios'
+
 export default {
+	
+	// ANCHOR Sets data.
 	data() {
 		return {
 			loginData: {
@@ -45,7 +53,10 @@ export default {
 			msg: ''
 		};
 	},
+
 	methods: {
+
+		// ANCHOR Trys to log the user in with the given credentials. Shows an error if the login attempt failed.
 		async login() {
 			try {
 				this.$store.dispatch('login', {
@@ -53,9 +64,7 @@ export default {
 				}).then(() => {
 					this.$router.push('/Dashboard');
 				})
-
 			} catch (error) {
-				console.log(error)
 				this.msg = 'Bitte Logindaten überprüfen'
 			}
 		},

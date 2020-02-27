@@ -1,3 +1,4 @@
+// ANCHOR Imports all the necessary dependencies
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
@@ -6,11 +7,11 @@ import Apply from "../views/Apply.vue";
 import Login from "../views/Login.vue";
 import Dashboard from "../views/Dashboard.vue";
 import Profil from "../views/Profil.vue";
-
 import store from "../store/index.js"
 
 Vue.use(VueRouter);
 
+// ANCHOR Sets the routes for each view
 var router = new VueRouter({
 	mode: 'history',
 	base: process.env.BASE_URL,
@@ -52,6 +53,7 @@ var router = new VueRouter({
 	}]
 })
 
+// ANCHOR Checks login state
 router.beforeEach((to, from, next) => {
 	if (to.matched.some(record => record.meta.requiresAuth)) {
 		// this route requires auth, check if logged in

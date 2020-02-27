@@ -1,3 +1,4 @@
+<!-- ANCHOR Template with the compontents. -->
 <template>
 	<div class="profil">
 		<v-dialog v-model="dialog" max-width="75vw">
@@ -22,7 +23,6 @@
 										</v-btn>
 										</div>
 										<div v-else>
-
 										</div>
 									</v-card-actions>
 								</v-form>
@@ -81,10 +81,15 @@
 	</div>
 </template>
 
+<!-- ANCHOR JS code -->
 <script>
+
+// ANCHOR Imports all the necessary dependencies.
 import axios from 'axios'
 
 export default {
+
+	// ANCHOR Sets data.
 	data() {
 		return {
 			isAuth: this.$store.getters.isLoggedIn,
@@ -103,6 +108,7 @@ export default {
 		};
 	},
 
+	// ANCHOR Gets profil data and defines variable respone after DOM is mounted.
 	async mounted() {
 		var response = await axios.get('/employees/profil')
 		this.response = response.data[0]
@@ -110,13 +116,15 @@ export default {
 	},
 
 	methods: {
+		
+		// ANCHOR Sends PUT-Request to change the password.
 		async changePassword() {
 			var passwordResponse = await axios.put('/employees/profil', this.userData)
 			this.dialog = false
 			this.info = passwordResponse.data
-			
-			
 		},
+
+		// ANCHOR Sends DELETE-Request to delete the user.
 		async deleteProfil() {
 			await axios.delete('/employees/profil')
 			this.isAuth = false;

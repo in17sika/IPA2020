@@ -1,3 +1,4 @@
+// ANCHOR Requires all the necessary dependencies.
 var express = require('./node_modules/express')
 var app = express()
 var checkAuth = require('./middleware/checkAuth')

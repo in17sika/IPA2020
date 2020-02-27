@@ -1,7 +1,8 @@
+<!-- ANCHOR Template with the compntents. -->
 <template>
-
 	<div class="apply">
 
+		<!-- ANCHOR Dialog for confirmation. -->
 		<v-dialog v-model="dialog.on" scrollable :overlay="false" max-width="500px" transition="dialog-transition">
 			<v-card>
 				<v-card-title primary-title>
@@ -16,6 +17,7 @@
 			</v-card>
 		</v-dialog>
 
+		<!-- ANCHOR First section. -->
 		<v-layout row wrap>
 			<v-flex xs12 md6 lg6 class="white">
 				<v-img src="../assets/blue_messages.png" class="ma-5 py-5"></v-img>
@@ -63,6 +65,7 @@
 
 		<v-divider></v-divider>
 
+		<!-- ANCHOR Section with date sliders. -->
 		<template>
 			<v-sheet class="mx-auto ma-10 mt-10" elevation="8" max-width="79vw">
 				<v-card-title primary-title class="primary white--text">
@@ -145,21 +148,30 @@
 
 	</div>
 </template>
+
+<!-- ANCHOR JS code. -->
 <script>
+
+// ANCHOR Imports all the necessary dependencies.
 import axios from 'axios'
+
 export default {
+
+	name: 'Apply',
+
+	// ANCHOR Sets data.
 	data() {
 		return {
 			value: '',
 			valid: true,
 			name: '',
 			nameRules: [
-				v => !!v || 'Name is required',
+				v => !!v || 'Name ist zwingend anzugeben!',
 			],
 			email: '',
 			emailRules: [
-				v => !!v || 'E-mail is required',
-				v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+				v => !!v || 'E-mail ist zwingend anzugeben!',
+				v => /.+@.+\..+/.test(v) || 'E-mail muss gültig sein',
 			],
 			checkbox: false,
 			dialog: {
@@ -187,17 +199,21 @@ export default {
 			records: []
 		};
 	},
+
+	// ANCHOR Awaits dates data and puts the date to the variable "dates" after the DOM is mounted.
 	async mounted() {
 		var dates = await axios.get('/visitors/dates')
 		this.dates = dates.data
-		console.log(this.dates)
 	},
 
 	methods: {
+
+		// ANCHOR Sets the given data in the parameters to the variable "pass".
 		draw(date) {
 			this.pass.data = date
-
 		},
+
+		// ANCHOR Checks if the validation was successfull and posts the data.
 		async save(data) {
 			if (this.$refs.form.validate()) {
 				this.editedItem.applicants_dates_id = data.dates_id
@@ -207,6 +223,8 @@ export default {
 				this.dialog.on = true
 			}
 		},
+
+		// ANCHOR Restes the data in the form.
 		reset() {
 			this.$refs.form.reset()
 		}

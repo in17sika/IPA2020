@@ -1,6 +1,4 @@
-/**
- * export configured knex instance
- */
+ // ANCHOR export configured knex instance
 module.exports = require('knex')({
 	client: 'mysql',
 	connection: {

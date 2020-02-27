@@ -27,7 +27,6 @@ router.put('/profil', async (req, res) => {
 		var {
 			users_password
 		} = req.body
-		console.log(req.body);
 		
 		var hashedPassword = await bcrypt.hash(users_password, 10)
 		await knex('users').update({
@@ -60,7 +59,7 @@ router.delete('/profil', async (req, res) => {
 		})
 		res.status(200).send('User ' + req.decodedToken.id + ' was deleted.')
 	} catch (err) {
-		res.status(500).send(err)
+		res.sendStatus(500)
 		console.log(err);
 	}
 })
@@ -73,7 +72,7 @@ router.get('/users', async (req, res) => {
 		var data = await knex('users')
 		res.status(200).send(data)
 	} catch (err) {
-		res.status(500).send(err)
+		res.sendStatus(500)
 		console.log(err);
 	}
 })
@@ -87,7 +86,6 @@ router.post('/users', async (req, res) => {
 			users_firstname,
 			users_lastname
 		} = req.body
-		console.log(req.body);
 		
 		var hashedPassword = await bcrypt.hash(users_password, 10)
 		await knex('users').insert({
@@ -96,50 +94,22 @@ router.post('/users', async (req, res) => {
 			users_firstname: users_firstname,
 			users_lastname: users_lastname,
 		})
-		res.status(200).send('User was created successfully.')
+		var successMsg = {
+			on: true,
+			msg: 'Benutzer wurde erfolgreich erstellt.'
+		}
+		res.status(200).send(successMsg)
 		console.log('User ' + users_username + ' was created successfully.');
 	} catch (err) {
-		res.status(500).send(err)
+		var errorMsg = {
+			on: true,
+			msg: 'Benutzer konnte nicht erstellt werden.'
+		}
+		res.send(errorMsg)
 		console.log(err);
 	}
 })
 
-// NOTE Commented out because users should not be able to update other users data.
-// ANCHOR Handles incoming PUT-Requests for '/users'.
-// router.put('/users', async (req, res) => {
-// 	try {
-// 		var {
-// 			username,
-// 			password
-// 		} = req.body
-// 		var hashedPassword = await bcrypt.hash(password, 10)
-// 		await knex('users').update({
-// 			password: hashedPassword
-// 		}).where({
-// 			username: username
-// 		})
-// 		res.status(200).send('Password of user ' + username + ' has changed.')
-// 	} catch (err) {
-
-// 	}
-// })
-
-// NOTE Commented out because users should not be able to delete others user data.
-// ANCHOR Handles incoming DELETE-Requests for '/users'.
-// router.delete('/users', async (req, res) => {
-// 	try {
-// 		var {
-// 			username
-// 		} = req.body
-// 		await knex('users').del().where({
-// 			username: username
-// 		})
-// 		res.status(200).send('User ' + username + ' was deleted.')
-// 	} catch (err) {
-// 		res.status(500).send(err)
-// 		console.log(err);
-// 	}
-// })
 // !SECTION 
 
 // SECTION Dates
@@ -635,7 +605,6 @@ router.post('/confirm', async (req, res) => {
 			msg: 'Bestätigungsmail wurde gesendet.'
 		}
 		res.status(200).send(successMessage)
-		console.log(err);
 
 	} catch (err) {
 		var errorMessage = {

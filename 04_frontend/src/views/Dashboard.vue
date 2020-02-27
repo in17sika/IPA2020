@@ -1,13 +1,14 @@
+<!-- ANCHOR Templates with the compontents. -->
 <template>
 	<div>
+
 		<v-layout row wrap>
 			<v-flex xs1>
 			</v-flex>
 			<v-flex xs10>
-				<!-- ANCHOR This is the applicants table -->
+				<!-- ANCHOR This is the applicants table. -->
 				<v-data-table :headers="applicantsHeader" :items="records" :items-per-page="10" class="elevation-3 mt-10"
 					:search="applicantsSearch">
-					<!-- the header of the data table -->
 					<template v-slot:top>
 						<v-toolbar flat color="white">
 							<v-toolbar-title>Teilnehmer</v-toolbar-title>
@@ -55,7 +56,7 @@
 								transition="dialog-transition">
 								<v-card>
 									<v-card-title primary-title>
-										{{info.data.firstname + ' ' + info.data.lastname}}
+										{{info.data.applicants_firstname + ' ' + info.data.applicants_lastname}}
 									</v-card-title>
 									<v-card-text>
 										<v-simple-table class="mt-5">
@@ -129,7 +130,6 @@
 									<v-chip v-else color="blue-grey white--text">{{ props.item.dates_start }}</v-chip>
 								</v-layout>
 							</td>
-
 							<td>
 								<v-layout justify-space-between>
 									<v-btn color="info" @click="passOn(props.item)">
@@ -171,17 +171,16 @@
 				<!-- ANCHOR This is the dates table -->
 				<v-data-table :headers="datesHeader" :items="dates" :items-per-page="10" class="elevation-3 mt-10"
 					:search="datesSearch">
-					<!-- the header of the data table -->
 					<template v-slot:top>
 						<v-toolbar flat color="white">
-							<v-toolbar-title>Daten</v-toolbar-title>
+							<v-toolbar-title>Schnupperlehrgänge</v-toolbar-title>
 							<div class="flex-grow-1"></div>
 							<v-text-field name="search" label="Search" v-model="datesSearch" class="mt-5"
 								append-icon="mdi-table-search"></v-text-field>
 							<v-dialog v-model="datesDialog" max-width="75vw">
 								<v-card>
 									<v-card-title>
-										<span class="headline">{{ formTitle }}</span>
+										<span class="headline">Daten</span>
 									</v-card-title>
 									<v-card-text>
 										<v-container>
@@ -192,7 +191,7 @@
 													<v-text-field v-model="editedItem.dates_end" label="Enddatum">
 													</v-text-field>
 													<v-text-field v-model="editedItem.dates_time" label="Uhrzeit"></v-text-field>
-													<v-checkbox label="Anwesend" v-model="editedItem.dates_relevant">
+													<v-checkbox label="Relevanz" v-model="editedItem.dates_relevant">
 													</v-checkbox>
 												</v-col>
 											</v-row>
@@ -222,7 +221,7 @@
 							</v-dialog>
 						</v-toolbar>
 					</template>
-					<!-- the actual data table -->
+					<!-- ANCHOR the actual data table -->
 					<template slot="item" slot-scope="props">
 						<tr>
 							<td>{{ props.item.dates_start }}</td>
@@ -235,7 +234,6 @@
 									<v-chip v-else color="blue-grey white--text">{{ props.item.dates_start }}</v-chip>
 								</v-layout>
 							</td>
-
 							<td>
 								<v-layout justify-space-between>
 									<v-btn color="warning" @click="editDates(props.item)">
@@ -249,14 +247,13 @@
 			</v-flex>
 			<v-flex xs1>
 			</v-flex>
-
 		</v-layout>
 
 		<v-layout row wrap>
 			<v-flex xs1>
-
 			</v-flex>
 			<v-flex xs10>
+				<!-- ANCHOR This is the new user form. -->
 				<v-card class="my-10 elevation-3">
 					<v-card-title primary-title>
 						Benutzer erstellen
@@ -267,7 +264,7 @@
 								<v-col cols="12">
 									<v-form ref="form" v-model="valid" lazy-validation>
 										<v-text-field v-model="newUser.users_username" label="Benutzername"
-											:rules="passwordRules">
+											:rules="usernameRules">
 										</v-text-field>
 										<v-text-field v-model="newUser.users_password" label="Passwort" :rules="passwordRules">
 										</v-text-field>
@@ -284,7 +281,6 @@
 												</v-btn>
 											</div>
 											<div v-else>
-
 											</div>
 										</v-card-actions>
 									</v-form>
@@ -295,20 +291,28 @@
 				</v-card>
 			</v-flex>
 			<v-flex xs1>
-
 			</v-flex>
 		</v-layout>
+		<!-- ANCHOR This is the snckbar which allow me to show the user important push notifications. -->
 		<v-snackbar v-model="snackbar.on" :color="snackbar.color" :timeout="timeOut">
 			{{snackbar.data}}
 		</v-snackbar>
+
 	</div>
 </template>
 
+<!-- ANCHOR JS code -->
 <script>
-	import axios from 'axios'
-	export default {
-		name: 'Tasks',
 
+// ANCHOR Import all the necessary dependencies.
+	import axios from 'axios'
+
+	export default {
+
+		// ANCHOR Sets compontents name.
+		name: 'Dashboard',
+
+		// ANCHOR Sets data.
 		data: () => ({
 			applicantsHeader: [{
 					text: 'Vorname',
@@ -370,8 +374,12 @@
 			},
 			newUser: {},
 			passwordRules: [
-				v => !!v || 'Neues Passwort eingeben!',
-				v => v.length >= 4 || 'Neues Passwort muss mindestens 4 Zeichen lang sein'
+				v => !!v || 'Passwort eingeben!',
+				v => v.length >= 4 || 'Passwort muss mindestens 4 Zeichen lang sein'
+			],
+			usernameRules: [
+				v => !!v || 'Einen gültigen Benutzernamen eingeben!!',
+				v => v.length >= 4 || 'Benutzname muss mindestens 4 Zeichen lang sein'
 			],
 			checkbox: false,
 			valid: true,
@@ -391,18 +399,21 @@
 			}
 		}),
 
+		// ANCHOR Computes data based upon the parameters or data that is referenced in another way.
 		computed: {
 			formTitle() {
 				return this.editedIndex === -1 ? 'Besucher hinzufügen' : 'Besucher bearbeiten'
 			}
 		},
 
+		// ANCHOR Checks val and closes dialog if criteria is met.
 		watch: {
 			dialog(val) {
 				val || this.close()
 			},
 		},
 
+		// ANCHOR Runs method init after DOM is mounted and creates a download link for the applicants list.
 		async mounted() {
 			await this.init()
 			var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.records));
@@ -417,31 +428,36 @@
 		},
 
 		methods: {
+
+			// ANCHOR Defines variable editedItem and gets applicants data.
 			async init() {
 				this.editedItem = Object.assign({}, this.defaultItem)
 				var applicantsResponse = await axios.get('/employees/applicants')
 				this.records = applicantsResponse.data
-				console.log(applicantsResponse.data);
 
+				// ANCHOR Gets dates data.
 				var datesResponse = await axios.get('/employees/dates')
 				this.dates = datesResponse.data
-				console.log(datesResponse.data);
 			},
+
+			// ANCHOR Defines editedIndex, editedId, editedItem and closes applicants dialog.
 			editApplicants(item) {
 				this.editedIndex = this.records.indexOf(item)
 				this.editedId = item.id
 				this.editedItem = Object.assign({}, item)
 				this.applicantsDialog = true
 			},
+
+			// ANCHOR Defines editedIndex, editedId, editedItem and closes dates dialog.
 			editDates(item) {
 				this.editedIndex = this.dates.indexOf(item)
 				this.editedId = item.id
 				this.editedItem = Object.assign({}, item)
 				this.datesDialog = true
 			},
-			async deleteItem(data) {
-				console.log(data.applicants_id);
 
+			// ANCHOR Deletes applicant from variable records and sends a DELETE request.
+			async deleteItem(data) {
 				const index = this.records.indexOf(data)
 				if (confirm('Are you sure you want to delete this item?')) {
 					this.records.splice(index, 1)
@@ -451,16 +467,18 @@
 					this.snackbar.data = 'Eintrag wurde entfehrnt'
 				}
 			},
+
+			// ANCHOR Sends POST- or PUT-Request to save applicants data.
 			async applicantsSave() {
 				if (this.editedIndex > -1) {
-					// update
+					// ANCHOR update
 					Object.assign(this.records[this.editedIndex], this.editedItem)
 					await axios.put(`/employees/applicants`, this.editedItem)
 					this.snackbar.on = true
 					this.snackbar.color = 'warning'
 					this.snackbar.data = `Eintrag wurde bearbeitet.`
 				} else {
-					// create
+					// ANCHOR create
 					this.records.push(this.editedItem)
 					await axios.post('/employees/applicants/', this.editedItem)
 					this.snackbar.on = true
@@ -472,16 +490,18 @@
 				}
 				this.applicantsClose()
 			},
+
+			// ANCHOR Sends POST- or PUT-Request to save date data.
 			async datesSave() {
 				if (this.editedIndex > -1) {
-					// update
+					// ANCHOR update
 					Object.assign(this.dates[this.editedIndex], this.editedItem)
 					await axios.put(`/employees/dates`, this.editedItem)
 					this.snackbar.on = true
 					this.snackbar.color = 'warning'
 					this.snackbar.data = `Eintrag wurde bearbeitet.`
 				} else {
-					// create
+					// ANCHOR create
 					this.records.push(this.editedItem)
 					await axios.post('/employees/applicants/', this.editedItem)
 					this.snackbar.on = true
@@ -493,12 +513,18 @@
 				}
 				this.datesClose()
 			},
-			async applicantsEdit() {
-				await axios.put('/employees/applicants', this.editedItem)
-			},
-			async datesEdit() {
-				await axios.put('/employees/dates', this.editedItem)
-			},
+
+			// ANCHOR Sends PUT-Request to edit applicants data.
+			// async applicantsEdit() {
+			// 	await axios.put('/employees/applicants', this.editedItem)
+			// },
+
+			// ANCHOR Sends PUT-Request to edit date data.
+			// async datesEdit() {
+			// 	await axios.put('/employees/dates', this.editedItem)
+			// },
+
+			// ANCHOR Closes applicants dialog and defines editedItem and editedIndex with a timeout of 0.3 seconds.
 			applicantsClose() {
 				this.applicantsDialog = false
 				setTimeout(() => {
@@ -506,6 +532,8 @@
 					this.editedIndex = -1
 				}, 300)
 			},
+
+			// ANCHOR Closes date dialog and defines editedItem and editedIndex with a timeout of 0.3 seconds.
 			datesClose() {
 				this.datesDialog = false
 				setTimeout(() => {
@@ -513,27 +541,27 @@
 					this.editedIndex = -1
 				}, 300)
 			},
-			formatDate(dateString) {
-				if (dateString) {
-					var d = new Date(dateString)
-					return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate()
-				} else {
-					return null
-				}
-			},
+
+			// ANCHOR Passes parameter data to variable info.
 			passOn(x) {
 				this.info.on = true
 				this.info.data = x
 			},
+
+			// ANCHOR Sends a POST-Request to send an E-Mail to the applicant.
 			async mail() {
 				var mailResponse = await axios.post('/employees/confirm', this.info.data)
 				this.info.on = false
 				this.pop = mailResponse.data
 				await this.init()
 			},
+
+			// ANCHOR Sends a POST-Request to create a new users.
 			async createUser() {
 				var createResponse = await axios.post('/employees/users', this.newUser)
 				this.pop = createResponse.data
+				console.log(createResponse);
+				
 			}
 		}
 	};
