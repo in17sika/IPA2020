@@ -139,9 +139,20 @@ router.post('/dates', async (req, res) => {
 			dates_time: dates_time,
 			dates_relevant: dates_relevant
 		})
-		res.status(200).send('Date ' + dates_date + ' was added.')
+
+		var successMsg = {
+			on: true,
+			color: 'success',
+			data: 'Datum wurde erfolgreich hinzugefügt.'
+		}
+		res.status(200).send(successMsg)
 	} catch (err) {
-		res.sendStatus(500)
+		var errorMSg = {
+			on: true,
+			color: 'error',
+			data: 'Datum konnte nicht erstellt werden.'
+		}
+		res.status(500).send(errorMSg)
 		console.log(err);
 	}
 })
@@ -169,22 +180,6 @@ router.put('/dates', async (req, res) => {
 	} catch (err) {
 		res.sendStatus(500)
 		console.log(err);
-	}
-})
-
-// ANCHOR Handles incoming DEL-Requests for '/dates'.
-router.delete('/dates', async (req, res) => {
-	try {
-		var {
-			dates_id
-		} = req.body
-		await knex('dates').del().where({
-			dates_id: dates_id
-		})
-		res.status(200).send('Date ' + dates_id + ' was deleted.')
-	} catch (err) {
-		res.sendStatus(500)
-		console.log(err)
 	}
 })
 // !SECTION 

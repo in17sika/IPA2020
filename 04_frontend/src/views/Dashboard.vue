@@ -247,6 +247,22 @@
 			</v-flex>
 			<v-flex xs1>
 			</v-flex>
+			<v-flex xs1>
+			</v-flex>
+			<v-flex xs10>
+				<v-card class="mt-10">
+					<v-card-title primary-title>
+						Neues Datum erstellen
+					</v-card-title>
+					<v-card-actions>
+						<v-btn color="success" @click="addDate()">
+							<v-icon small>mdi-plus</v-icon>
+						</v-btn>
+					</v-card-actions>
+				</v-card>
+			</v-flex>
+			<v-flex xs1>
+			</v-flex>
 		</v-layout>
 
 		<v-layout row wrap>
@@ -303,8 +319,7 @@
 
 <!-- ANCHOR JS code -->
 <script>
-
-// ANCHOR Import all the necessary dependencies.
+	// ANCHOR Import all the necessary dependencies.
 	import axios from 'axios'
 
 	export default {
@@ -456,6 +471,11 @@
 				this.datesDialog = true
 			},
 
+			// ANCHOR Opens dates dialog.
+			addDate() {
+				this.datesDialog = true
+			},
+
 			// ANCHOR Deletes applicant from variable records and sends a DELETE request.
 			async deleteItem(data) {
 				const index = this.records.indexOf(data)
@@ -502,14 +522,13 @@
 					this.snackbar.data = `Eintrag wurde bearbeitet.`
 				} else {
 					// ANCHOR create
-					this.records.push(this.editedItem)
-					await axios.post('/employees/applicants/', this.editedItem)
-					this.snackbar.on = true
-					this.snackbar.color = 'success'
-					this.snackbar.data = `Eintrag wurde erstellt`
-					var response = await axios.get('/employees/dates')
+					var response = await axios.post('/employees/dates/', this.editedItem)
+					this.snackbar.on = response.data.on
+					this.snackbar.color = response.data.color
+					this.snackbar.data = response.data.data
+					var dates = await axios.get('/employees/dates')
 					this.records = []
-					this.records = response.data
+					this.records = dates.data
 				}
 				this.datesClose()
 			},
@@ -561,7 +580,7 @@
 				var createResponse = await axios.post('/employees/users', this.newUser)
 				this.pop = createResponse.data
 				console.log(createResponse);
-				
+
 			}
 		}
 	};
